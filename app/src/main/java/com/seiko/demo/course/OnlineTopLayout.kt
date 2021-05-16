@@ -1,4 +1,4 @@
-package com.seiko.demo.course.layout
+package com.seiko.demo.course
 
 import android.content.Context
 import android.graphics.Color
@@ -6,7 +6,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.seiko.demo.course.R
+import com.seiko.demo.ImageLoader
+import com.seiko.demo.R
+import com.seiko.demo.base.BaseLayout
 
 class OnlineTopLayout @JvmOverloads constructor(
     context: Context,

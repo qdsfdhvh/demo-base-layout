@@ -1,4 +1,4 @@
-package com.seiko.demo.course.layout
+package com.seiko.demo.course
 
 import android.content.Context
 import android.graphics.Canvas
@@ -11,7 +11,9 @@ import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import com.seiko.demo.course.R
+import com.seiko.demo.ImageLoader
+import com.seiko.demo.R
+import com.seiko.demo.base.BaseLayout
 
 class CameraUserLayout @JvmOverloads constructor(
     context: Context,
@@ -78,6 +80,7 @@ class CameraUserLayout @JvmOverloads constructor(
             )
             roundPath.addRoundRect(rectF, round, round, Path.Direction.CW)
             it.clipPath(roundPath)
+
         }
         super.dispatchDraw(canvas)
     }

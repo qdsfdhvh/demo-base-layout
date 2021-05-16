@@ -1,9 +1,12 @@
-package com.seiko.demo.course.layout
+package com.seiko.demo.base
 
 import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
+import android.view.View.MeasureSpec
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
 
 interface BaseLayoutExtensions {
@@ -38,23 +41,23 @@ interface BaseLayoutExtensions {
         get() = this * getResources().displayMetrics.scaledDensity * 0.5f
 
     fun Int.toExactlyMeasureSpec(): Int {
-        return View.MeasureSpec.makeMeasureSpec(this, View.MeasureSpec.EXACTLY)
+        return MeasureSpec.makeMeasureSpec(this, MeasureSpec.EXACTLY)
     }
 
     fun Int.toAtMostMeasureSpec(): Int {
-        return View.MeasureSpec.makeMeasureSpec(this, View.MeasureSpec.AT_MOST)
+        return MeasureSpec.makeMeasureSpec(this, MeasureSpec.AT_MOST)
     }
 
     fun View.defaultWidthMeasureSpec(parentView: ViewGroup): Int = when (layoutParams.width) {
-        ViewGroup.LayoutParams.MATCH_PARENT -> (parentView.measuredWidth - paddingStart - paddingEnd).toExactlyMeasureSpec()
-        ViewGroup.LayoutParams.WRAP_CONTENT -> (parentView.measuredWidth - paddingStart - paddingEnd).toAtMostMeasureSpec()
+        MATCH_PARENT -> (parentView.measuredWidth - paddingStart - paddingEnd).toExactlyMeasureSpec()
+        WRAP_CONTENT -> (parentView.measuredWidth - paddingStart - paddingEnd).toAtMostMeasureSpec()
         0 -> throw IllegalAccessException("Need special treatment for $this")
         else -> layoutParams.width.toExactlyMeasureSpec()
     }
 
     fun View.defaultHeightMeasureSpec(parentView: ViewGroup): Int = when (layoutParams.height) {
-        ViewGroup.LayoutParams.MATCH_PARENT -> (parentView.measuredHeight - paddingTop - paddingBottom).toExactlyMeasureSpec()
-        ViewGroup.LayoutParams.WRAP_CONTENT -> (parentView.measuredHeight - paddingTop - paddingBottom).toAtMostMeasureSpec()
+        MATCH_PARENT -> (parentView.measuredHeight - paddingTop - paddingBottom).toExactlyMeasureSpec()
+        WRAP_CONTENT -> (parentView.measuredHeight - paddingTop - paddingBottom).toAtMostMeasureSpec()
         0 -> throw IllegalAccessException("Need special treatment for $this")
         else -> layoutParams.height.toExactlyMeasureSpec()
     }

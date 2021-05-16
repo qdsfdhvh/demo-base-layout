@@ -1,2 +1,2 @@
-rootProject.name = "demo-online-course"
+rootProject.name = "demo-base-layout"
 include ':app'

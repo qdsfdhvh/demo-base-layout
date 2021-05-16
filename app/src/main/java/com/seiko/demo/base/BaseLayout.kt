@@ -1,4 +1,4 @@
-package com.seiko.demo.course.layout
+package com.seiko.demo.base
 
 import android.content.Context
 import android.util.AttributeSet

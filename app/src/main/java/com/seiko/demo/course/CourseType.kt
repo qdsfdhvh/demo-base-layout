@@ -1,4 +1,4 @@
-package com.seiko.demo.course.enum
+package com.seiko.demo.course
 
 enum class CourseType {
     Stage,        // 舞台

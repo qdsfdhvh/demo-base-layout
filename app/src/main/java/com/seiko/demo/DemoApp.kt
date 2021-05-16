@@ -1,4 +1,4 @@
-package com.seiko.demo.course
+package com.seiko.demo
 
 import android.app.Activity
 import android.app.Application

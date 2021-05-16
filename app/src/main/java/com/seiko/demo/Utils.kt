@@ -1,4 +1,4 @@
-package com.seiko.demo.course.layout
+package com.seiko.demo
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
