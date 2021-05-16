@@ -29,16 +29,16 @@ interface BaseLayoutExtensions {
         get() = (layoutParams as? BaseLayout.LayoutParams)?.bottomMargin ?: 0
 
     val Int.dp: Int
-        get() = (this * getResources().displayMetrics.density + 0.5f).toInt()
+        get() = AdaptScreenUtils.pt2Px(getResources(), this.toFloat())
 
     val Float.dp: Int
-        get() = (this * getResources().displayMetrics.density + 0.5f).toInt()
+        get() = AdaptScreenUtils.pt2Px(getResources(), this)
 
     val Int.sp: Float
-        get() = this * getResources().displayMetrics.scaledDensity * 0.5f
+        get() = AdaptScreenUtils.pt2Px(getResources(), this.toFloat()).toFloat()
 
     val Float.sp: Float
-        get() = this * getResources().displayMetrics.scaledDensity * 0.5f
+        get() = AdaptScreenUtils.pt2Px(getResources(), this).toFloat()
 
     fun Int.toExactlyMeasureSpec(): Int {
         return MeasureSpec.makeMeasureSpec(this, MeasureSpec.EXACTLY)

@@ -5,11 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.AttributeSet
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
+import com.seiko.demo.base.BaseActivity
 import com.seiko.demo.base.BaseLayout
 import com.seiko.demo.course.OnlineActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val contentView = MainActivityLayout(this)
