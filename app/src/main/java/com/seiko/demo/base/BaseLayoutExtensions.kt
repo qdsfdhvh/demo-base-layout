@@ -8,8 +8,13 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
+import com.seiko.demo.AdaptScreenUtils
 
 interface BaseLayoutExtensions {
+
+    companion object {
+        const val INVALID_VIEW_SIZE = -3
+    }
 
     fun getResources(): Resources
 
@@ -72,5 +77,16 @@ interface BaseLayoutExtensions {
 
     fun TextView.setTextSizePx(px: Float) {
         setTextSize(TypedValue.COMPLEX_UNIT_PX, px)
+    }
+
+    fun View.setViewSize(width: Int = INVALID_VIEW_SIZE, height: Int = INVALID_VIEW_SIZE) {
+        val mLayoutParams = layoutParams
+        if (width != INVALID_VIEW_SIZE) mLayoutParams.width = width
+        if (height != INVALID_VIEW_SIZE) mLayoutParams.height = height
+        layoutParams = mLayoutParams
+    }
+
+    fun View.setViewSize(size: Int) {
+        setViewSize(size, size)
     }
 }

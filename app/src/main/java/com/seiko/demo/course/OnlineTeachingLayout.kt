@@ -78,6 +78,7 @@ class OnlineTeachingLayout @JvmOverloads constructor(
         student2.name.text = "学生2"
         student3.name.text = "学生3"
         student4.name.text = "学生4"
+        changeChildViewState(courseType)
     }
 
     private fun changeChildViewState(courseType: CourseType) {
@@ -88,10 +89,39 @@ class OnlineTeachingLayout @JvmOverloads constructor(
         musicalPreview.isVisible = courseType == CourseType.Musical
         musicalKnock.isVisible = courseType == CourseType.Musical
         courseMedia.isVisible = courseType == CourseType.CourseWare
-
-        student2.name.isVisible = courseType != CourseType.CourseWare
-        student3.name.isVisible = courseType != CourseType.CourseWare
-        student4.name.isVisible = courseType != CourseType.CourseWare
+        teacher.name.isVisible = (courseType != CourseType.WhiteBoard
+                && courseType != CourseType.Musical)
+        student1.name.isVisible = (courseType != CourseType.WhiteBoard
+                && courseType != CourseType.Musical)
+        student2.name.isVisible = courseType == CourseType.Stage
+        student3.name.isVisible = courseType == CourseType.Stage
+        student4.name.isVisible = courseType == CourseType.Stage
+        when (courseType) {
+            CourseType.Stage -> {
+                teacher.setNameViewSize(height = 30.dp)
+                teacher.name.setTextSizePx(15.sp)
+                teacher.isVisible = true
+                student1.setNameViewSize(height = 30.dp)
+                student1.name.setTextSizePx(15.sp)
+                student1.isVisible = true
+                student2.setNameViewSize(height = 17.dp)
+                student2.name.setTextSizePx(11.sp)
+                student3.setNameViewSize(height = 17.dp)
+                student3.name.setTextSizePx(11.sp)
+                student4.setNameViewSize(height = 17.dp)
+                student4.name.setTextSizePx(11.sp)
+            }
+            CourseType.WhiteBoard -> {
+            }
+            CourseType.Musical -> {
+                teacher.setNameViewSize(height = 30.dp)
+                teacher.name.setTextSizePx(15.sp)
+                student1.setNameViewSize(height = 17.dp)
+                student1.name.setTextSizePx(11.sp)
+            }
+            CourseType.CourseWare -> {
+            }
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

@@ -14,6 +14,7 @@ import android.widget.TextView
 import com.seiko.demo.ImageLoader
 import com.seiko.demo.R
 import com.seiko.demo.base.BaseLayout
+import com.seiko.demo.base.BaseLayoutExtensions.Companion.INVALID_VIEW_SIZE
 
 class CameraUserLayout @JvmOverloads constructor(
     context: Context,
@@ -29,10 +30,10 @@ class CameraUserLayout @JvmOverloads constructor(
     }
 
     @JvmField
-    val name = TextView(context).autoAddView() {
+    val name = TextView(context).autoAddView(height = 30.dp) {
         setTextColor(Color.WHITE)
         setTextSizePx(15.sp)
-        setPadding(10.dp, 4.dp, 10.dp, 4.dp)
+        setPadding(10.dp, 0, 10.dp, 0)
         ellipsize = TextUtils.TruncateAt.END
         maxLines = 1
         gravity = Gravity.CENTER
@@ -47,8 +48,15 @@ class CameraUserLayout @JvmOverloads constructor(
     }
 
     init {
-        ImageLoader.load(name, "#82000000", 9.dp)
+        ImageLoader.load(name, "#82000000", 15.dp)
         ImageLoader.load(networkQuality, R.mipmap.ic_class_net_good)
+    }
+
+    fun setNameViewSize(width: Int = INVALID_VIEW_SIZE, height: Int = INVALID_VIEW_SIZE) {
+        name.setViewSize(width, height)
+        if (height != INVALID_VIEW_SIZE) {
+            ImageLoader.load(name, "#82000000", height / 2)
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
