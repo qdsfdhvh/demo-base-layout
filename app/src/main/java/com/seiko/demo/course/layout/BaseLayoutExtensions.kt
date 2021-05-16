@@ -10,8 +10,8 @@ interface BaseLayoutExtensions {
 
     fun getResources(): Resources
 
-    val View.measureWidthWithMargins get() = (measuredWidth + leftMargin + rightMargin)
-    val View.measureHeightWithMargins get() = (measuredHeight + topMargin + bottomMargin)
+    val View.measureWidthWithMargins get() = measuredWidth + leftMargin + rightMargin
+    val View.measureHeightWithMargins get() = measuredHeight + topMargin + bottomMargin
 
     val View.leftMargin: Int
         get() = (layoutParams as? BaseLayout.LayoutParams)?.leftMargin ?: 0
@@ -45,22 +45,18 @@ interface BaseLayoutExtensions {
         return View.MeasureSpec.makeMeasureSpec(this, View.MeasureSpec.AT_MOST)
     }
 
-    fun View.defaultWidthMeasureSpec(parentView: ViewGroup): Int {
-        return when (layoutParams.width) {
-            ViewGroup.LayoutParams.MATCH_PARENT -> (parentView.measuredWidth - paddingStart - paddingEnd).toExactlyMeasureSpec()
-            ViewGroup.LayoutParams.WRAP_CONTENT -> (parentView.measuredWidth - paddingStart - paddingEnd).toAtMostMeasureSpec()
-            0 -> throw IllegalAccessException("Need special treatment for $this")
-            else -> layoutParams.width.toExactlyMeasureSpec()
-        }
+    fun View.defaultWidthMeasureSpec(parentView: ViewGroup): Int = when (layoutParams.width) {
+        ViewGroup.LayoutParams.MATCH_PARENT -> (parentView.measuredWidth - paddingStart - paddingEnd).toExactlyMeasureSpec()
+        ViewGroup.LayoutParams.WRAP_CONTENT -> (parentView.measuredWidth - paddingStart - paddingEnd).toAtMostMeasureSpec()
+        0 -> throw IllegalAccessException("Need special treatment for $this")
+        else -> layoutParams.width.toExactlyMeasureSpec()
     }
 
-    fun View.defaultHeightMeasureSpec(parentView: ViewGroup): Int {
-        return when (layoutParams.height) {
-            ViewGroup.LayoutParams.MATCH_PARENT -> (parentView.measuredHeight - paddingTop - paddingBottom).toExactlyMeasureSpec()
-            ViewGroup.LayoutParams.WRAP_CONTENT -> (parentView.measuredHeight - paddingTop - paddingBottom).toAtMostMeasureSpec()
-            0 -> throw IllegalAccessException("Need special treatment for $this")
-            else -> layoutParams.height.toExactlyMeasureSpec()
-        }
+    fun View.defaultHeightMeasureSpec(parentView: ViewGroup): Int = when (layoutParams.height) {
+        ViewGroup.LayoutParams.MATCH_PARENT -> (parentView.measuredHeight - paddingTop - paddingBottom).toExactlyMeasureSpec()
+        ViewGroup.LayoutParams.WRAP_CONTENT -> (parentView.measuredHeight - paddingTop - paddingBottom).toAtMostMeasureSpec()
+        0 -> throw IllegalAccessException("Need special treatment for $this")
+        else -> layoutParams.height.toExactlyMeasureSpec()
     }
 
     fun View.measureExactly(width: Int, height: Int) {

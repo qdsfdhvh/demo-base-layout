@@ -19,44 +19,35 @@ abstract class BaseLayout(
         measure(widthMeasureSpec, heightMeasureSpec)
     }
 
-    protected fun View.layout(x: Int, y: Int) {
-        layout(x, y, x + measuredWidth, y + measuredHeight)
-    }
+    protected fun View.layout(x: Int, y: Int) = layout(
+        x, y, x + measuredWidth, y + measuredHeight
+    )
 
     protected fun View.layout(
         x: Int, y: Int,
         fromRight: Boolean = false,
         fromBottom: Boolean = false
-    ) {
-        layout(
-            if (fromRight) this@BaseLayout.measuredWidth - x - measuredWidth else x,
-            if (fromBottom) this@BaseLayout.measuredHeight - y - measuredHeight else y
-        )
-    }
+    ) = layout(
+        if (fromRight) this@BaseLayout.measuredWidth - x - measuredWidth else x,
+        if (fromBottom) this@BaseLayout.measuredHeight - y - measuredHeight else y
+    )
 
-    protected fun View.layoutCenter() {
-        layout(
-            (this@BaseLayout.measuredWidth - measuredWidth) / 2,
-            (this@BaseLayout.measuredHeight - measuredHeight) / 2
-        )
-    }
+    protected fun View.layoutCenter() = layout(
+        (this@BaseLayout.measuredWidth - measuredWidth) / 2,
+        (this@BaseLayout.measuredHeight - measuredHeight) / 2
+    )
 
-    protected fun View.layoutVertical(x: Int, fromRight: Boolean = false) {
-        layout(
-            x = x,
-            y = (this@BaseLayout.measuredHeight - measuredHeight) / 2 + topMargin - bottomMargin,
-            fromRight = fromRight
-        )
-    }
+    protected fun View.layoutVertical(x: Int, fromRight: Boolean = false) = layout(
+        x = x,
+        y = (this@BaseLayout.measuredHeight - measuredHeight) / 2,
+        fromRight = fromRight
+    )
 
-    protected fun View.layoutHorizontal(y: Int, fromBottom: Boolean = false) {
-        val x = (this@BaseLayout.measuredWidth - measuredWidth) / 2 + leftMargin - rightMargin
-        if (fromBottom) {
-            layout(x, this@BaseLayout.measuredHeight - measuredHeight)
-        } else {
-            layout(x, y)
-        }
-    }
+    protected fun View.layoutHorizontal(y: Int, fromBottom: Boolean = false) = layout(
+        x = (this@BaseLayout.measuredWidth - measuredWidth) / 2,
+        y = y,
+        fromBottom = fromBottom
+    )
 
     protected fun <T : View> T.autoAddView(
         width: Int = WRAP_CONTENT,
