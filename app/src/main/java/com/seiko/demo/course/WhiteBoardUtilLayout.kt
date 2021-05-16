@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import androidx.core.view.isVisible
+import com.seiko.demo.DrawableUtils
 import com.seiko.demo.ImageLoader
 import com.seiko.demo.R
 import com.seiko.demo.base.BaseLayout
@@ -65,7 +66,11 @@ class WhiteBoardUtilLayout @JvmOverloads constructor(
     private val padding = 10.dp
 
     init {
-        ImageLoader.load(this, "#FFDC6B", 6.dp)
+        background = DrawableUtils.createRadiusDrawable(
+            Color.parseColor("#FFDC6B"),
+            radiusTopLeft = 6.dp.toFloat(),
+            radiusBottomLeft = 6.dp.toFloat()
+        )
         ImageLoader.load(btnShowPen, R.mipmap.whiteboard_pen)
         ImageLoader.load(btnRetreat, R.mipmap.whiteboard_retreat)
         ImageLoader.load(btnClear, R.mipmap.whiteboard_clear)
