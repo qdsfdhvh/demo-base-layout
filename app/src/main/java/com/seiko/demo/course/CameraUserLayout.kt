@@ -52,8 +52,9 @@ class CameraUserLayout @JvmOverloads constructor(
         ImageLoader.load(networkQuality, R.mipmap.ic_class_net_good)
     }
 
-    fun setNameViewSize(width: Int = INVALID_VIEW_SIZE, height: Int = INVALID_VIEW_SIZE) {
-        name.setViewSize(width, height)
+    fun setNameViewHeightAndTextSize(height: Int = INVALID_VIEW_SIZE, textSize: Float) {
+        name.setTextSizePx(textSize)
+        name.setViewSize(height = height)
         if (height != INVALID_VIEW_SIZE) {
             ImageLoader.load(name, "#82000000", height / 2)
         }

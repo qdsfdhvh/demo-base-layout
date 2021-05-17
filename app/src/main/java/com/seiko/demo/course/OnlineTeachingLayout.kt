@@ -98,26 +98,17 @@ class OnlineTeachingLayout @JvmOverloads constructor(
         student4.name.isVisible = courseType == CourseType.Stage
         when (courseType) {
             CourseType.Stage -> {
-                teacher.setNameViewSize(height = 30.dp)
-                teacher.name.setTextSizePx(15.sp)
-                teacher.isVisible = true
-                student1.setNameViewSize(height = 30.dp)
-                student1.name.setTextSizePx(15.sp)
-                student1.isVisible = true
-                student2.setNameViewSize(height = 17.dp)
-                student2.name.setTextSizePx(11.sp)
-                student3.setNameViewSize(height = 17.dp)
-                student3.name.setTextSizePx(11.sp)
-                student4.setNameViewSize(height = 17.dp)
-                student4.name.setTextSizePx(11.sp)
+                teacher.setNameViewHeightAndTextSize(30.dp, 15.sp)
+                student1.setNameViewHeightAndTextSize(30.dp, 15.sp)
+                student2.setNameViewHeightAndTextSize(17.dp, 11.sp)
+                student3.setNameViewHeightAndTextSize(17.dp, 11.sp)
+                student4.setNameViewHeightAndTextSize(17.dp, 11.sp)
             }
             CourseType.WhiteBoard -> {
             }
             CourseType.Musical -> {
-                teacher.setNameViewSize(height = 30.dp)
-                teacher.name.setTextSizePx(15.sp)
-                student1.setNameViewSize(height = 17.dp)
-                student1.name.setTextSizePx(11.sp)
+                teacher.setNameViewHeightAndTextSize(30.dp, 15.sp)
+                student1.setNameViewHeightAndTextSize(17.dp, 11.sp)
             }
             CourseType.CourseWare -> {
             }
