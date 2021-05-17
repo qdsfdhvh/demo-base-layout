@@ -82,30 +82,52 @@ abstract class BaseLayout(
         }
     }
 
-    protected fun layoutVerticals(startX: Int, vararg views: View) {
+    protected fun layoutVerticals(vararg views: View): Int {
+        return layoutVerticals(0, *views)
+    }
+
+    protected fun layoutVerticals(startX: Int, vararg views: View): Int {
         var leftX = startX
         for (view in views) {
             leftX += view.leftMargin
             view.layoutVertical(leftX)
             leftX += view.measuredWidth + view.rightMargin
         }
+        return leftX
     }
 
-    protected fun layoutVerticals(vararg views: View) {
-        layoutVerticals(0, *views)
+    protected fun layoutVerticals(startX: Int, centerY: Int, padding: Int, vararg views: View): Int {
+        var leftX = startX
+        for (view in views) {
+            leftX += view.leftMargin + padding
+            view.layout(leftX, centerY - view.measuredHeight / 2)
+            leftX += view.measuredWidth + view.rightMargin
+        }
+        return leftX
     }
 
-    protected fun layoutsHorizontals(startY: Int, vararg views: View) {
+    protected fun layoutsHorizontals(vararg views: View): Int {
+        return layoutsHorizontals(0, *views)
+    }
+
+    protected fun layoutsHorizontals(startY: Int, vararg views: View): Int {
         var topY = startY
         for (view in views) {
             topY += view.topMargin
             view.layoutHorizontal(topY)
             topY += view.measuredHeight + view.bottomMargin
         }
+        return topY
     }
 
-    protected fun layoutsHorizontals(vararg views: View) {
-        layoutsHorizontals(0, *views)
+    protected fun layoutsHorizontals(startY: Int, centerX: Int, vararg views: View): Int {
+        var topY = startY
+        for (view in views) {
+            topY += view.topMargin
+            view.layout(centerX - view.measuredWidth / 2, topY)
+            topY += view.measuredHeight + view.bottomMargin
+        }
+        return topY
     }
 
     protected fun plusWidthWithMargins(vararg views: View): Int {

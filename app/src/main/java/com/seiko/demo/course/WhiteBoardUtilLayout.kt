@@ -25,8 +25,12 @@ class WhiteBoardUtilLayout @JvmOverloads constructor(
             }
         }
 
+    private val btnSize = 27.5f.dp
+    private val btnMargin = 20.5f.dp
+    private val btnPenSize = 24.dp
+
     @JvmField
-    val btnShowPen = createBtn(context)
+    val btnShowPen = ImageView(context).autoAddView(btnSize)
 
     @JvmField
     val btnRetreat = createBtn(context)
@@ -63,7 +67,16 @@ class WhiteBoardUtilLayout @JvmOverloads constructor(
     private val lineClear = createLine(context)
     private val linePenColor = createLine(context)
 
-    private val padding = 10.dp
+    // ↓ 以下View的间距为动态算出
+    private val toolViewsWithOutBtn = arrayOf(
+        pen0, pen2, pen4, linePenColor,
+        penColorRed, penColorOrange, penColorGreen, penColorBlue, penColorBlack, lineClear
+    )
+
+    private val toolViews = toolViewsWithOutBtn + arrayOf(
+        btnClear, lineRetreat,
+        btnRetreat, lineShowPen
+    )
 
     init {
         background = DrawableUtils.createRadiusDrawable(
@@ -119,16 +132,21 @@ class WhiteBoardUtilLayout @JvmOverloads constructor(
             return
         }
 
-        autoMeasures(
-            lineShowPen,
-            btnRetreat, lineRetreat,
-            btnClear, lineClear,
-            penColorRed, penColorGreen, penColorOrange, penColorBlue, penColorBlack, linePenColor,
-            pen0, pen2, pen4
-        )
+        autoMeasures(*toolViews)
 
+        // 算出UtilLayout的尺寸
         val parentWidth = MeasureSpec.getSize(widthMeasureSpec)
         val whiteBoardUtilWidth = parentWidth - ((parentWidth - 637.dp) / 2 + 71.dp + 10.dp)
+
+        // 算出pen之间的间距
+        val penPadding = (whiteBoardUtilWidth
+                - 50.dp - lineShowPen.measuredWidth
+                - btnRetreat.measureWidthWithMargins - lineRetreat.measuredWidth
+                - btnClear.measureWidthWithMargins - lineClear.measuredWidth
+                - penColorBlack.measuredWidth * 8 - linePenColor.measuredWidth
+                ) / 10
+        toolViewsWithOutBtn.setMargins(left = penPadding)
+
         setMeasuredDimension(
             whiteBoardUtilWidth.toExactlyMeasureSpec(),
             heightMeasureSpec
@@ -136,57 +154,27 @@ class WhiteBoardUtilLayout @JvmOverloads constructor(
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        var startX = padding
-        btnShowPen.layoutVertical(startX, true)
-        if (!isShowPen) return
+        btnShowPen.layoutVertical(10.dp, true)
+        if (!isShowPen) {
+            return
+        }
 
-        startX += btnShowPen.measuredWidth + 13.5f.dp
-        lineShowPen.layoutVertical(startX, true)
-        startX += lineShowPen.measuredWidth + 20.5f.dp
-        btnRetreat.layoutVertical(startX, true)
-        startX += btnRetreat.measuredWidth + 20.5f.dp
-        lineRetreat.layoutVertical(startX, true)
-        startX += lineRetreat.measuredWidth + 20.5f.dp
-        btnClear.layoutVertical(startX, true)
-        startX += btnClear.measuredWidth + 20.5f.dp
-        lineClear.layoutVertical(startX, true)
-
-        val penPadding = (measuredWidth
-                - 184.dp
-                - penColorBlack.measuredWidth * 8
-                - lineClear.measuredWidth) / 10
-
-        startX += lineClear.measuredWidth + penPadding
-        penColorBlack.layoutVertical(startX, true)
-        startX += penColorBlack.measuredWidth + penPadding
-        penColorBlue.layoutVertical(startX, true)
-        startX += penColorBlue.measuredWidth + penPadding
-        penColorGreen.layoutVertical(startX, true)
-        startX += penColorGreen.measuredWidth + penPadding
-        penColorOrange.layoutVertical(startX, true)
-        startX += penColorOrange.measuredWidth + penPadding
-        penColorRed.layoutVertical(startX, true)
-        startX += penColorRed.measuredWidth + penPadding
-        linePenColor.layoutVertical(startX, true)
-
-        startX += linePenColor.measuredWidth + penPadding
-        pen4.layoutVertical(startX, true)
-        startX += pen4.measuredWidth + penPadding
-        pen2.layoutVertical(startX, true)
-        startX += pen2.measuredWidth + penPadding
-        pen0.layoutVertical(startX, true)
+        layoutVerticals(*toolViews)
     }
 
     private fun createBtn(context: Context) =
-        ImageView(context).autoAddView(27.5f.dp)
+        ImageView(context).autoAddView(btnSize) {
+            it.leftMargin = btnMargin
+            it.rightMargin = btnMargin
+        }
 
     private fun createPenBtn(context: Context, size: Int) =
-        ImageView(context).autoAddView(24.dp) {
-            setPadding((24.dp - size) / 2)
+        ImageView(context).autoAddView(btnPenSize) {
+            setPadding((btnPenSize - size) / 2)
         }
 
     private fun createPenColorBtn(context: Context) =
-        ImageView(context).autoAddView(24.dp)
+        ImageView(context).autoAddView(btnPenSize)
 
     private fun createLine(context: Context) =
         View(context).autoAddView(0.5f.dp, 30.dp) {

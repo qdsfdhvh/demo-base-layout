@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
+import androidx.core.view.setMargins
 import com.seiko.demo.AdaptScreenUtils
 
 interface BaseLayoutExtensions {
@@ -18,8 +19,11 @@ interface BaseLayoutExtensions {
 
     fun getResources(): Resources
 
-    val View.measureWidthWithMargins get() = measuredWidth + leftMargin + rightMargin
-    val View.measureHeightWithMargins get() = measuredHeight + topMargin + bottomMargin
+    val View.measureWidthWithMargins
+        get() = measuredWidth + leftMargin + rightMargin
+
+    val View.measureHeightWithMargins
+        get() = measuredHeight + topMargin + bottomMargin
 
     val View.leftMargin: Int
         get() = (layoutParams as? BaseLayout.LayoutParams)?.leftMargin ?: 0
@@ -79,6 +83,10 @@ interface BaseLayoutExtensions {
         setTextSize(TypedValue.COMPLEX_UNIT_PX, px)
     }
 
+    fun View.setViewSize(size: Int) {
+        setViewSize(size, size)
+    }
+
     fun View.setViewSize(width: Int = INVALID_VIEW_SIZE, height: Int = INVALID_VIEW_SIZE) {
         val mLayoutParams = layoutParams
         if (width != INVALID_VIEW_SIZE) mLayoutParams.width = width
@@ -86,7 +94,19 @@ interface BaseLayoutExtensions {
         layoutParams = mLayoutParams
     }
 
-    fun View.setViewSize(size: Int) {
-        setViewSize(size, size)
+    fun View.setMargins(size: Int) {
+        (layoutParams as? BaseLayout.LayoutParams)?.setMargins(size)
+    }
+
+    fun View.setMargins(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) {
+        (layoutParams as? BaseLayout.LayoutParams)?.setMargins(left, top, right, bottom)
+    }
+
+    fun Array<View>.setMargins(size: Int) {
+        forEach { it.setMargins(size) }
+    }
+
+    fun Array<View>.setMargins(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) {
+        forEach { it.setMargins(left, top, right, bottom) }
     }
 }
