@@ -19,6 +19,10 @@ abstract class BaseLayout(
         measure(widthMeasureSpec, heightMeasureSpec)
     }
 
+    protected fun Array<View>.autoMeasure() {
+        forEach { it.autoMeasure() }
+    }
+
     protected fun View.layout(x: Int, y: Int) = layout(
         x, y, x + measuredWidth, y + measuredHeight
     )
@@ -74,12 +78,6 @@ abstract class BaseLayout(
     class LayoutParams : MarginLayoutParams {
         constructor(size: Int) : super(size, size)
         constructor(width: Int = WRAP_CONTENT, height: Int = WRAP_CONTENT) : super(width, height)
-    }
-
-    protected fun autoMeasures(vararg views: View) {
-        for (view in views) {
-            view.autoMeasure()
-        }
     }
 
     protected fun layoutVerticals(vararg views: View): Int {
