@@ -117,6 +117,7 @@ class OnlineTeachingLayout @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val parentWidth = MeasureSpec.getSize(widthMeasureSpec)
         when (courseType) {
             CourseType.Stage -> {
                 teacher.measureExactly(282.dp, 208.dp)
@@ -128,18 +129,21 @@ class OnlineTeachingLayout @JvmOverloads constructor(
             CourseType.WhiteBoard -> {
                 val childHeight = 52.5f.dp
                 teacher.measureExactly(71.dp, childHeight)
+
+                val whiteBoardUtilWidth: Int
                 if (!whiteBoardUtil.isShowPen) {
+                    whiteBoardUtilWidth = 50.dp
                     student1.measureExactly(71.dp, childHeight)
                     student2.measureExactly(71.dp, childHeight)
                     student3.measureExactly(71.dp, childHeight)
                     student4.measureExactly(71.dp, childHeight)
                     whiteBoardPublic.measureExactly(127.5f.dp, childHeight)
                     lineWhiteBoard.autoMeasure()
+                } else {
+                    whiteBoardUtilWidth = parentWidth - (parentWidth - 637.dp) / 2 - 71.dp - padding
                 }
                 whiteBoardPrivate.measureExactly(637.dp, 262.dp)
-                whiteBoardUtil.autoMeasure(
-                    heightMeasureSpec = childHeight.toExactlyMeasureSpec()
-                )
+                whiteBoardUtil.measureExactly(whiteBoardUtilWidth, childHeight)
             }
             CourseType.Musical -> {
                 teacher.measureExactly(81.5f.dp, 60.5f.dp)

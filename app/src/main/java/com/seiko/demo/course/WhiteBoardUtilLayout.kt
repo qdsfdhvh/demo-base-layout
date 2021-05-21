@@ -28,6 +28,7 @@ class WhiteBoardUtilLayout @JvmOverloads constructor(
     private val btnSize = 27.5f.dp
     private val btnMargin = 20.5f.dp
     private val btnPenSize = 24.dp
+    private val lineWidth = 0.5f.dp
 
     @JvmField
     val btnShowPen = ImageView(context).autoAddView(btnSize)
@@ -125,32 +126,16 @@ class WhiteBoardUtilLayout @JvmOverloads constructor(
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         btnShowPen.autoMeasure()
         if (!isShowPen) {
-            setMeasuredDimension(
-                50.dp.toExactlyMeasureSpec(),
-                heightMeasureSpec
-            )
             return
         }
 
         autoMeasures(*toolViews)
 
-        // 算出UtilLayout的尺寸
-        val parentWidth = MeasureSpec.getSize(widthMeasureSpec)
-        val whiteBoardUtilWidth = parentWidth - ((parentWidth - 637.dp) / 2 + 71.dp + 10.dp)
-
         // 算出pen之间的间距
+        val whiteBoardUtilWidth = MeasureSpec.getSize(widthMeasureSpec)
         val penPadding = (whiteBoardUtilWidth
-                - 50.dp - lineShowPen.measuredWidth
-                - btnRetreat.measureWidthWithMargins - lineRetreat.measuredWidth
-                - btnClear.measureWidthWithMargins - lineClear.measuredWidth
-                - penColorBlack.measuredWidth * 8 - linePenColor.measuredWidth
-                ) / 10
+                - 50.dp - btnMargin * 4 - btnPenSize * 10 - lineWidth * 4) / 10
         toolViewsWithOutBtn.setMargins(left = penPadding)
-
-        setMeasuredDimension(
-            whiteBoardUtilWidth.toExactlyMeasureSpec(),
-            heightMeasureSpec
-        )
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -177,7 +162,7 @@ class WhiteBoardUtilLayout @JvmOverloads constructor(
         ImageView(context).autoAddView(btnPenSize)
 
     private fun createLine(context: Context) =
-        View(context).autoAddView(0.5f.dp, 30.dp) {
+        View(context).autoAddView(lineWidth, 30.dp) {
             setBackgroundColor(Color.WHITE)
         }
 }
