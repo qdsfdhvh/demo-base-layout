@@ -91,6 +91,16 @@ abstract class BaseLayout(
     )
 
     /**
+     * 居中
+     * @param target 目标View
+     */
+    @Suppress("NOTHING_TO_INLINE")
+    protected inline fun View.layoutCenter(target: View) = layout(
+        target.left + (target.measuredWidth - measuredWidth) / 2,
+        target.top + (target.measuredHeight - measuredHeight) / 2
+    )
+
+    /**
      * 垂直居中，左右移动  ← →
      */
     @Suppress("NOTHING_TO_INLINE")
@@ -101,11 +111,37 @@ abstract class BaseLayout(
     )
 
     /**
+     * 与目标View垂直居中，左右移动  ← →
+     * @param target 目标View
+     */
+    @Suppress("NOTHING_TO_INLINE")
+    protected inline fun View.layoutHorizontal(
+        x: Int, target: View, fromRight: Boolean = false
+    ) = layout(
+        x = x,
+        y = target.top + (target.measuredHeight - measuredHeight) / 2,
+        fromRight = fromRight
+    )
+
+    /**
      * 横向居中，上下移动 ↑ ↓
      */
     @Suppress("NOTHING_TO_INLINE")
     protected inline fun View.layoutVertical(y: Int, fromBottom: Boolean = false) = layout(
         x = (this@BaseLayout.measuredWidth - measuredWidth) / 2,
+        y = y,
+        fromBottom = fromBottom
+    )
+
+    /**
+     * 与目标View横向居中，上下移动 ↑ ↓
+     * @param target 目标View
+     */
+    @Suppress("NOTHING_TO_INLINE")
+    protected inline fun View.layoutVertical(
+        y: Int, target: View, fromBottom: Boolean = false
+    ) = layout(
+        x = target.left + (target.measuredWidth - measuredWidth) / 2,
         y = y,
         fromBottom = fromBottom
     )
@@ -195,6 +231,24 @@ abstract class BaseLayout(
             topY += view.measuredHeight + view.bottomMargin
         }
         return topY
+    }
+
+    /**
+     * 与目标View横向居中
+     * @param target 目标View
+     * @return x轴起点
+     */
+    protected fun View.horizontalCenterOf(target: View): Int {
+        return target.left + (target.measuredWidth - measuredWidth) / 2
+    }
+
+    /**
+     * 与目标View垂直居中
+     * @param target 目标View
+     * @return y轴起点
+     */
+    protected fun View.verticalCenterOf(target: View): Int {
+        return target.top + (target.measuredHeight - measuredHeight) / 2
     }
 
     protected fun plusWidthWithMargins(vararg views: View): Int {
