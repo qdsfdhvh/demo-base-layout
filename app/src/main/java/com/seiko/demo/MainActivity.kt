@@ -28,16 +28,28 @@ class MainActivityLayout @JvmOverloads constructor(
     @JvmField
     val btnGoToOnline = Button(context).autoAddView()
 
+    @JvmField
+    val btnGoToMultiType = Button(context).autoAddView()
+
+    @JvmField
+    val btnTest1 = Button(context).autoAddView()
+
+    @JvmField
+    val btnTest2 = Button(context).autoAddView()
+
     init {
         btnGoToOnline.text = "在线直播"
+        btnGoToMultiType.text = "多类型列表"
+        btnTest1.text = "测试1"
+        btnTest2.text = "测试2"
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        btnGoToOnline.autoMeasure()
+        autoMeasure(btnGoToOnline, btnGoToMultiType, btnTest1, btnTest2)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        btnGoToOnline.layoutCenter()
+        layoutCenter(btnGoToOnline, btnGoToMultiType, btnTest1, btnTest2)
     }
 }

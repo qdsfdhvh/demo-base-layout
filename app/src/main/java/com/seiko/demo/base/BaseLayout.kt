@@ -80,6 +80,14 @@ abstract class BaseLayout(
         constructor(width: Int = WRAP_CONTENT, height: Int = WRAP_CONTENT) : super(width, height)
     }
 
+    protected fun layoutCenter(vararg views: View) {
+        var topY = (measuredHeight - views.sumOf { it.measureHeightWithMargins }) / 2
+        for (view in views) {
+            view.layoutHorizontal(topY)
+            topY += view.measureHeightWithMargins
+        }
+    }
+
     protected fun layoutVerticals(vararg views: View): Int {
         return layoutVerticals(0, *views)
     }
