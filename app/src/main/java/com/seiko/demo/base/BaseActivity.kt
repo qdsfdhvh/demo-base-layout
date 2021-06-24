@@ -3,7 +3,7 @@ package com.seiko.demo.base
 import android.content.res.Configuration
 import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
-import com.seiko.demo.AdaptScreenUtils
+import com.seiko.demo.utils.AdaptScreenUtils
 
 abstract class BaseActivity : AppCompatActivity() {
 

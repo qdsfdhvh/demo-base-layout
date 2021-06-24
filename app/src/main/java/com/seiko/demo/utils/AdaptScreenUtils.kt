@@ -1,4 +1,4 @@
-package com.seiko.demo
+package com.seiko.demo.utils
 
 import android.content.res.Resources
 

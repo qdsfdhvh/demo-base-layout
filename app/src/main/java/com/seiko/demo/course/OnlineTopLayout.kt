@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.seiko.demo.ImageLoader
+import com.seiko.demo.utils.ImageLoader
 import com.seiko.demo.R
 import com.seiko.demo.base.BaseLayout
 

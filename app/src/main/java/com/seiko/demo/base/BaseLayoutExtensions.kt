@@ -9,7 +9,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
 import androidx.core.view.setMargins
-import com.seiko.demo.AdaptScreenUtils
+import com.seiko.demo.utils.AdaptScreenUtils
 
 interface BaseLayoutExtensions {
 

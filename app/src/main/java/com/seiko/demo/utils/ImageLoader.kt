@@ -1,7 +1,6 @@
-package com.seiko.demo
+package com.seiko.demo.utils
 
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorInt
@@ -35,28 +34,4 @@ class ImageLoader {
             load(view, Color.parseColor(colorString), radius)
         }
     }
-}
-
-object DrawableUtils {
-
-    @JvmStatic
-    fun createRadiusDrawable(
-        @ColorInt color: Int,
-        radiusTopLeft: Float = 0f,
-        radiusTopRight: Float = 0f,
-        radiusBottomRight: Float = 0f,
-        radiusBottomLeft: Float = 0f
-    ) = GradientDrawable().apply {
-        setColor(color)
-        cornerRadii = floatArrayOf(
-            radiusTopLeft, radiusTopLeft,
-            radiusTopRight, radiusTopRight,
-            radiusBottomRight, radiusBottomRight,
-            radiusBottomLeft, radiusBottomLeft
-        )
-    }
-
-    @JvmStatic
-    fun createRadiusDrawable(@ColorInt color: Int, radius: Float) =
-        createRadiusDrawable(color, radius, radius, radius, radius)
 }

@@ -11,7 +11,7 @@ import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import com.seiko.demo.ImageLoader
+import com.seiko.demo.utils.ImageLoader
 import com.seiko.demo.R
 import com.seiko.demo.base.BaseLayout
 import com.seiko.demo.base.BaseLayoutExtensions.Companion.INVALID_VIEW_SIZE
