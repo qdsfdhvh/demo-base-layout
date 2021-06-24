@@ -51,7 +51,7 @@ class OnlineActivityLayout @JvmOverloads constructor(
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        layoutsHorizontals(topLayout, teachingLayout)
+        layoutVertical(topLayout, teachingLayout)
         btnChange.layout(0, 0, fromBottom = true)
     }
 }

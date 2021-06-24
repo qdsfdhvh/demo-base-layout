@@ -139,12 +139,11 @@ class WhiteBoardUtilLayout @JvmOverloads constructor(
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        btnShowPen.layoutVertical(10.dp, true)
+        btnShowPen.layoutHorizontal(10.dp, true)
         if (!isShowPen) {
             return
         }
-
-        layoutVerticals(*toolViews)
+        layoutHorizontal(*toolViews)
     }
 
     private fun createBtn(context: Context) =

@@ -4,54 +4,16 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams.MATCH_PARENT
-import android.view.ViewGroup.MarginLayoutParams.WRAP_CONTENT
 
 abstract class BaseLayout(
     context: Context,
     attrs: AttributeSet? = null
 ) : ViewGroup(context, attrs), BaseLayoutExtensions {
 
-    protected fun View.autoMeasure(
-        widthMeasureSpec: Int = defaultWidthMeasureSpec(parentView = this@BaseLayout),
-        heightMeasureSpec: Int = defaultHeightMeasureSpec(parentView = this@BaseLayout)
-    ) {
-        measure(widthMeasureSpec, heightMeasureSpec)
+    companion object {
+        const val WRAP_CONTENT = MarginLayoutParams.WRAP_CONTENT
+        const val MATCH_PARENT = MarginLayoutParams.MATCH_PARENT
     }
-
-    protected fun autoMeasure(vararg views: View) {
-        views.forEach { it.autoMeasure() }
-    }
-
-    protected fun View.layout(x: Int, y: Int) = layout(
-        x, y, x + measuredWidth, y + measuredHeight
-    )
-
-    protected fun View.layout(
-        x: Int, y: Int,
-        fromRight: Boolean = false,
-        fromBottom: Boolean = false
-    ) = layout(
-        if (fromRight) this@BaseLayout.measuredWidth - x - measuredWidth else x,
-        if (fromBottom) this@BaseLayout.measuredHeight - y - measuredHeight else y
-    )
-
-    protected fun View.layoutCenter() = layout(
-        (this@BaseLayout.measuredWidth - measuredWidth) / 2,
-        (this@BaseLayout.measuredHeight - measuredHeight) / 2
-    )
-
-    protected fun View.layoutVertical(x: Int, fromRight: Boolean = false) = layout(
-        x = x,
-        y = (this@BaseLayout.measuredHeight - measuredHeight) / 2,
-        fromRight = fromRight
-    )
-
-    protected fun View.layoutHorizontal(y: Int, fromBottom: Boolean = false) = layout(
-        x = (this@BaseLayout.measuredWidth - measuredWidth) / 2,
-        y = y,
-        fromBottom = fromBottom
-    )
 
     protected fun <T : View> T.autoAddView(
         width: Int = WRAP_CONTENT,
@@ -80,53 +42,152 @@ abstract class BaseLayout(
         constructor(width: Int = WRAP_CONTENT, height: Int = WRAP_CONTENT) : super(width, height)
     }
 
-    protected fun layoutCenter(vararg views: View) {
-        var topY = (measuredHeight - views.sumOf { it.measureHeightWithMargins }) / 2
-        for (view in views) {
-            view.layoutHorizontal(topY)
-            topY += view.measureHeightWithMargins
+    /**
+     * 自动测量
+     */
+    protected fun View.autoMeasure(
+        widthMeasureSpec: Int = defaultWidthMeasureSpec(parentView = this@BaseLayout),
+        heightMeasureSpec: Int = defaultHeightMeasureSpec(parentView = this@BaseLayout)
+    ) {
+        measure(widthMeasureSpec, heightMeasureSpec)
+    }
+
+    /**
+     * 多View自动测量
+     */
+    protected fun autoMeasure(vararg views: View) {
+        views.forEach { it.autoMeasure() }
+    }
+
+    /**
+     * 绘制
+     */
+    protected fun View.layout(x: Int, y: Int) = layout(
+        x, y, x + measuredWidth, y + measuredHeight
+    )
+
+    /**
+     * 绘制
+     * @param fromRight 从右侧开始
+     * @param fromBottom 从底部开始
+     */
+    @Suppress("NOTHING_TO_INLINE")
+    protected inline fun View.layout(
+        x: Int, y: Int,
+        fromRight: Boolean = false,
+        fromBottom: Boolean = false
+    ) = layout(
+        if (fromRight) this@BaseLayout.measuredWidth - x - measuredWidth else x,
+        if (fromBottom) this@BaseLayout.measuredHeight - y - measuredHeight else y
+    )
+
+    /**
+     * 居中
+     */
+    @Suppress("NOTHING_TO_INLINE")
+    protected inline fun View.layoutCenter() = layout(
+        (this@BaseLayout.measuredWidth - measuredWidth) / 2,
+        (this@BaseLayout.measuredHeight - measuredHeight) / 2
+    )
+
+    /**
+     * 垂直居中，左右移动  ← →
+     */
+    @Suppress("NOTHING_TO_INLINE")
+    protected inline fun View.layoutHorizontal(x: Int, fromRight: Boolean = false) = layout(
+        x = x,
+        y = (this@BaseLayout.measuredHeight - measuredHeight) / 2,
+        fromRight = fromRight
+    )
+
+    /**
+     * 横向居中，上下移动 ↑ ↓
+     */
+    @Suppress("NOTHING_TO_INLINE")
+    protected inline fun View.layoutVertical(y: Int, fromBottom: Boolean = false) = layout(
+        x = (this@BaseLayout.measuredWidth - measuredWidth) / 2,
+        y = y,
+        fromBottom = fromBottom
+    )
+
+    /**
+     * 多View居中绘制
+     * @param isVertical 是否垂直排列
+     */
+    protected fun layoutCenter(vararg views: View, isVertical: Boolean = true) {
+        if (isVertical) {
+            val topY = (measuredHeight - plusHeightWithMargins(*views)) / 2
+            layoutVertical(topY, *views)
+        } else {
+            val leftX = (measuredWidth - plusWidthWithMargins(*views)) / 2
+            layoutHorizontal(leftX, *views)
         }
     }
 
-    protected fun layoutVerticals(vararg views: View): Int {
-        return layoutVerticals(0, *views)
+    /**
+     * 多view垂直居中 横向排列 →
+     */
+    @Suppress("NOTHING_TO_INLINE")
+    protected inline fun layoutHorizontal(vararg views: View): Int {
+        return layoutHorizontal(0, *views)
     }
 
-    protected fun layoutVerticals(startX: Int, vararg views: View): Int {
+    /**
+     * 多view垂直居中 横向排列 →
+     * @param startX x轴起点
+     */
+    protected fun layoutHorizontal(startX: Int, vararg views: View): Int {
         var leftX = startX
         for (view in views) {
             leftX += view.leftMargin
-            view.layoutVertical(leftX)
+            view.layoutHorizontal(leftX)
             leftX += view.measuredWidth + view.rightMargin
         }
         return leftX
     }
 
-    protected fun layoutVerticals(startX: Int, centerY: Int, padding: Int, vararg views: View): Int {
+    /**
+     * 多view垂直固定 横向排列 →
+     * @param startX x轴起点
+     * @param centerY y轴中点
+     */
+    protected fun layoutHorizontal(startX: Int, centerY: Int, vararg views: View): Int {
         var leftX = startX
         for (view in views) {
-            leftX += view.leftMargin + padding
+            leftX += view.leftMargin
             view.layout(leftX, centerY - view.measuredHeight / 2)
             leftX += view.measuredWidth + view.rightMargin
         }
         return leftX
     }
 
-    protected fun layoutsHorizontals(vararg views: View): Int {
-        return layoutsHorizontals(0, *views)
+    /**
+     * 多view横向居中 横向排列 ↓
+     */
+    protected fun layoutVertical(vararg views: View): Int {
+        return layoutVertical(0, *views)
     }
 
-    protected fun layoutsHorizontals(startY: Int, vararg views: View): Int {
+    /**
+     * 多view横向居中 横向排列 ↓
+     * @param startY y轴起点
+     */
+    protected fun layoutVertical(startY: Int, vararg views: View): Int {
         var topY = startY
         for (view in views) {
             topY += view.topMargin
-            view.layoutHorizontal(topY)
+            view.layoutVertical(topY)
             topY += view.measuredHeight + view.bottomMargin
         }
         return topY
     }
 
-    protected fun layoutsHorizontals(startY: Int, centerX: Int, vararg views: View): Int {
+    /**
+     * 多view横向居中 横向排列 ↓
+     * @param startY y轴起点
+     * @param centerX x轴中点
+     */
+    protected fun layoutVertical(startY: Int, centerX: Int, vararg views: View): Int {
         var topY = startY
         for (view in views) {
             topY += view.topMargin

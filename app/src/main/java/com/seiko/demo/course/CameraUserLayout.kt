@@ -11,10 +11,10 @@ import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import com.seiko.demo.utils.ImageLoader
 import com.seiko.demo.R
 import com.seiko.demo.base.BaseLayout
 import com.seiko.demo.base.BaseLayoutExtensions.Companion.INVALID_VIEW_SIZE
+import com.seiko.demo.utils.ImageLoader
 
 class CameraUserLayout @JvmOverloads constructor(
     context: Context,
@@ -62,10 +62,7 @@ class CameraUserLayout @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        camera.autoMeasure()
-        avatar.autoMeasure()
-        name.autoMeasure()
-        networkQuality.autoMeasure()
+        autoMeasure(camera, avatar, name, networkQuality)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {

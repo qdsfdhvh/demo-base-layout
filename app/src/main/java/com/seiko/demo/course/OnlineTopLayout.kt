@@ -91,9 +91,9 @@ class OnlineTopLayout @JvmOverloads constructor(
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        layoutVerticals(musicLogo, musicTitle)
-        giftBgView.layoutVertical(10.dp, fromRight = true)
-        layoutVerticals(startX = giftBgView.x.toInt(), *giftViews)
+        layoutHorizontal(musicLogo, musicTitle)
+        giftBgView.layoutHorizontal(10.dp, fromRight = true)
+        layoutHorizontal(startX = giftBgView.left, *giftViews)
     }
 
     private fun createGiftLogo(context: Context) =
