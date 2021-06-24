@@ -129,7 +129,7 @@ class WhiteBoardUtilLayout @JvmOverloads constructor(
             return
         }
 
-        toolViews.autoMeasure()
+        autoMeasure(*toolViews)
 
         // 算出pen之间的间距
         val whiteBoardUtilWidth = MeasureSpec.getSize(widthMeasureSpec)

@@ -84,7 +84,7 @@ class OnlineTopLayout @JvmOverloads constructor(
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         musicLogo.autoMeasure()
         musicTitle.autoMeasure()
-        giftViews.autoMeasure()
+        autoMeasure(*giftViews)
         giftBgView.autoMeasure(
             widthMeasureSpec = plusWidthWithMargins(*giftViews).toExactlyMeasureSpec()
         )

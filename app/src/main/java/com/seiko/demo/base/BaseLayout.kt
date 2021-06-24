@@ -19,8 +19,8 @@ abstract class BaseLayout(
         measure(widthMeasureSpec, heightMeasureSpec)
     }
 
-    protected fun Array<View>.autoMeasure() {
-        forEach { it.autoMeasure() }
+    protected fun autoMeasure(vararg views: View) {
+        views.forEach { it.autoMeasure() }
     }
 
     protected fun View.layout(x: Int, y: Int) = layout(
