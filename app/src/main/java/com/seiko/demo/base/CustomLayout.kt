@@ -5,10 +5,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 
-abstract class BaseLayout(
+abstract class CustomLayout(
     context: Context,
     attrs: AttributeSet? = null
-) : ViewGroup(context, attrs), BaseLayoutExtensions {
+) : ViewGroup(context, attrs), CustomLayoutExtensions {
 
     companion object {
         const val WRAP_CONTENT = MarginLayoutParams.WRAP_CONTENT
@@ -23,7 +23,7 @@ abstract class BaseLayout(
         val mLayoutParams = LayoutParams(width, height)
         block(mLayoutParams)
         layoutParams = mLayoutParams
-        this@BaseLayout.addView(this)
+        this@CustomLayout.addView(this)
     }
 
     protected fun <T : View> T.autoAddView(
@@ -46,8 +46,8 @@ abstract class BaseLayout(
      * 自动测量
      */
     protected fun View.autoMeasure(
-        widthMeasureSpec: Int = defaultWidthMeasureSpec(parentView = this@BaseLayout),
-        heightMeasureSpec: Int = defaultHeightMeasureSpec(parentView = this@BaseLayout)
+        widthMeasureSpec: Int = defaultWidthMeasureSpec(parentView = this@CustomLayout),
+        heightMeasureSpec: Int = defaultHeightMeasureSpec(parentView = this@CustomLayout)
     ) {
         measure(widthMeasureSpec, heightMeasureSpec)
     }
@@ -77,8 +77,8 @@ abstract class BaseLayout(
         fromRight: Boolean = false,
         fromBottom: Boolean = false
     ) = layout(
-        if (fromRight) this@BaseLayout.measuredWidth - x - measuredWidth else x,
-        if (fromBottom) this@BaseLayout.measuredHeight - y - measuredHeight else y
+        if (fromRight) this@CustomLayout.measuredWidth - x - measuredWidth else x,
+        if (fromBottom) this@CustomLayout.measuredHeight - y - measuredHeight else y
     )
 
     /**
@@ -86,8 +86,8 @@ abstract class BaseLayout(
      */
     @Suppress("NOTHING_TO_INLINE")
     protected inline fun View.layoutCenter() = layout(
-        (this@BaseLayout.measuredWidth - measuredWidth) / 2,
-        (this@BaseLayout.measuredHeight - measuredHeight) / 2
+        (this@CustomLayout.measuredWidth - measuredWidth) / 2,
+        (this@CustomLayout.measuredHeight - measuredHeight) / 2
     )
 
     /**
@@ -106,7 +106,7 @@ abstract class BaseLayout(
     @Suppress("NOTHING_TO_INLINE")
     protected inline fun View.layoutHorizontal(x: Int, fromRight: Boolean = false) = layout(
         x = x,
-        y = (this@BaseLayout.measuredHeight - measuredHeight) / 2,
+        y = (this@CustomLayout.measuredHeight - measuredHeight) / 2,
         fromRight = fromRight
     )
 
@@ -128,7 +128,7 @@ abstract class BaseLayout(
      */
     @Suppress("NOTHING_TO_INLINE")
     protected inline fun View.layoutVertical(y: Int, fromBottom: Boolean = false) = layout(
-        x = (this@BaseLayout.measuredWidth - measuredWidth) / 2,
+        x = (this@CustomLayout.measuredWidth - measuredWidth) / 2,
         y = y,
         fromBottom = fromBottom
     )

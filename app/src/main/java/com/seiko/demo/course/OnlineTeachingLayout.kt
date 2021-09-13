@@ -8,12 +8,12 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import com.seiko.demo.utils.ImageLoader
 import com.seiko.demo.R
-import com.seiko.demo.base.BaseLayout
+import com.seiko.demo.base.CustomLayout
 
 class OnlineTeachingLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
-) : BaseLayout(context, attrs) {
+) : CustomLayout(context, attrs) {
 
     // 场景
     var courseType: CourseType = CourseType.DEFAULT

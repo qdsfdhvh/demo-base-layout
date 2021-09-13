@@ -8,12 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.seiko.demo.utils.ImageLoader
 import com.seiko.demo.R
-import com.seiko.demo.base.BaseLayout
+import com.seiko.demo.base.CustomLayout
 
 class OnlineTopLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
-) : BaseLayout(context, attrs) {
+) : CustomLayout(context, attrs) {
 
     @JvmField
     val musicLogo = ImageView(context).autoAddView(17.5f.dp) {

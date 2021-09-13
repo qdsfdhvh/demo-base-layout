@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.core.view.setMargins
 import com.seiko.demo.utils.AdaptScreenUtils
 
-interface BaseLayoutExtensions {
+interface CustomLayoutExtensions {
 
     companion object {
         const val INVALID_VIEW_SIZE = -3
@@ -26,16 +26,16 @@ interface BaseLayoutExtensions {
         get() = measuredHeight + topMargin + bottomMargin
 
     val View.leftMargin: Int
-        get() = (layoutParams as? BaseLayout.LayoutParams)?.leftMargin ?: 0
+        get() = (layoutParams as? CustomLayout.LayoutParams)?.leftMargin ?: 0
 
     val View.topMargin: Int
-        get() = (layoutParams as? BaseLayout.LayoutParams)?.topMargin ?: 0
+        get() = (layoutParams as? CustomLayout.LayoutParams)?.topMargin ?: 0
 
     val View.rightMargin: Int
-        get() = (layoutParams as? BaseLayout.LayoutParams)?.rightMargin ?: 0
+        get() = (layoutParams as? CustomLayout.LayoutParams)?.rightMargin ?: 0
 
     val View.bottomMargin: Int
-        get() = (layoutParams as? BaseLayout.LayoutParams)?.bottomMargin ?: 0
+        get() = (layoutParams as? CustomLayout.LayoutParams)?.bottomMargin ?: 0
 
     val Int.dp: Int
         get() = AdaptScreenUtils.pt2Px(getResources(), this.toFloat())
@@ -95,11 +95,11 @@ interface BaseLayoutExtensions {
     }
 
     fun View.setMargins(size: Int) {
-        (layoutParams as? BaseLayout.LayoutParams)?.setMargins(size)
+        (layoutParams as? CustomLayout.LayoutParams)?.setMargins(size)
     }
 
     fun View.setMargins(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) {
-        (layoutParams as? BaseLayout.LayoutParams)?.setMargins(left, top, right, bottom)
+        (layoutParams as? CustomLayout.LayoutParams)?.setMargins(left, top, right, bottom)
     }
 
     fun Array<View>.setMargins(size: Int) {

@@ -7,12 +7,12 @@ import android.view.Gravity
 import android.widget.TextView
 import com.seiko.demo.utils.ImageLoader
 import com.seiko.demo.R
-import com.seiko.demo.base.BaseLayout
+import com.seiko.demo.base.CustomLayout
 
 class OnlineActivityLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
-) : BaseLayout(context, attrs) {
+) : CustomLayout(context, attrs) {
 
     @JvmField
     val topLayout = OnlineTopLayout(context).autoAddViewMax(height = 37.dp)

@@ -12,14 +12,14 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.seiko.demo.R
-import com.seiko.demo.base.BaseLayout
-import com.seiko.demo.base.BaseLayoutExtensions.Companion.INVALID_VIEW_SIZE
+import com.seiko.demo.base.CustomLayout
+import com.seiko.demo.base.CustomLayoutExtensions.Companion.INVALID_VIEW_SIZE
 import com.seiko.demo.utils.ImageLoader
 
 class CameraUserLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
-) : BaseLayout(context, attrs) {
+) : CustomLayout(context, attrs) {
 
     @JvmField
     val camera = FrameLayout(context).autoAddViewMax()
