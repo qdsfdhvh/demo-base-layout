@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.App.Toolbar">
+        <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Surface</item>
+    </style>
+    <style name="Theme.App.InputLayout">
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense</item>
+    </style>
+    <style name="Theme.App.SendButton">
+        <item name="imageButtonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
+    </style>
+</resources>
