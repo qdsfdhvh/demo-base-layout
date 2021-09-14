@@ -8,21 +8,21 @@ object DrawableUtils {
     @JvmStatic
     fun createRadiusDrawable(
         @ColorInt color: Int,
-        radiusTopLeft: Float = 0f,
-        radiusTopRight: Float = 0f,
-        radiusBottomRight: Float = 0f,
-        radiusBottomLeft: Float = 0f
+        topLeft: Int = 0,
+        topRight: Int = 0,
+        bottomRight: Int = 0,
+        bottomLeft: Int = 0,
     ) = GradientDrawable().apply {
         setColor(color)
         cornerRadii = floatArrayOf(
-            radiusTopLeft, radiusTopLeft,
-            radiusTopRight, radiusTopRight,
-            radiusBottomRight, radiusBottomRight,
-            radiusBottomLeft, radiusBottomLeft
+            topLeft.toFloat(), topLeft.toFloat(),
+            topRight.toFloat(), topRight.toFloat(),
+            bottomRight.toFloat(), bottomRight.toFloat(),
+            bottomLeft.toFloat(), bottomLeft.toFloat()
         )
     }
 
     @JvmStatic
-    fun createRadiusDrawable(@ColorInt color: Int, radius: Float) =
+    fun createRadiusDrawable(@ColorInt color: Int, radius: Int) =
         createRadiusDrawable(color, radius, radius, radius, radius)
 }

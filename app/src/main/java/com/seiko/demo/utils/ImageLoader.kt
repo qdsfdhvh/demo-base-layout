@@ -25,7 +25,7 @@ class ImageLoader {
             if (radius == 0) {
                 view.setBackgroundColor(color)
             } else {
-                view.background = DrawableUtils.createRadiusDrawable(color, radius.toFloat())
+                view.background = DrawableUtils.createRadiusDrawable(color, radius)
             }
         }
 

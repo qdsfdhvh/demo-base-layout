@@ -82,8 +82,8 @@ class WhiteBoardUtilLayout @JvmOverloads constructor(
     init {
         background = DrawableUtils.createRadiusDrawable(
             Color.parseColor("#FFDC6B"),
-            radiusTopLeft = 6.dp.toFloat(),
-            radiusBottomLeft = 6.dp.toFloat()
+            topLeft = 6.dp,
+            bottomLeft = 6.dp
         )
         ImageLoader.load(btnShowPen, R.mipmap.whiteboard_pen)
         ImageLoader.load(btnRetreat, R.mipmap.whiteboard_retreat)
