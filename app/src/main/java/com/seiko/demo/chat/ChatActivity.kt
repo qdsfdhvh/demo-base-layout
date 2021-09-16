@@ -10,6 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,9 +34,6 @@ class ChatActivity : BaseActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    val contentView = ChatLayout(this)
-    setContentView(contentView)
-
     ViewCompat.getWindowInsetsController(window.decorView)?.let {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         it.show(WindowInsets.Type.systemBars())
@@ -43,6 +42,9 @@ class ChatActivity : BaseActivity() {
       it.isAppearanceLightNavigationBars = true
     }
 
+    val contentView = ChatLayout(this)
+    setContentView(contentView)
+
     edgeInsetDelegate.start()
 
     with(contentView.recyclerView) {
@@ -50,29 +52,27 @@ class ChatActivity : BaseActivity() {
       adapter = ChatMsgAdapter()
     }
 
-    with(contentView.toolbar) {
-      doOnApplyWindowInsets { insets, padding, _ ->
-        updatePadding(top = padding.top + insets.systemWindowInsetTop)
+    with(contentView) {
+      doOnApplyWindowInsets { windowInsets, padding, _, deferredInsets ->
+        val type = when {
+          deferredInsets -> WindowInsetsCompat.Type.systemBars()
+          else -> WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime()
+        }
+        val insets = windowInsets.getInsets(type)
+        updatePadding(
+          top = padding.top + insets.top,
+          bottom = padding.bottom + insets.bottom
+        )
       }
-    }
-    with(contentView.messageHolder) {
-      doOnApplyWindowInsets { insets, padding, _ ->
-        updatePadding(bottom = padding.bottom + insets.systemWindowInsetBottom)
-      }
+
+      messageHolder.translateDeferringInsetsAnimation(DISPATCH_MODE_CONTINUE_ON_SUBTREE)
+      recyclerView.translateDeferringInsetsAnimation()
     }
   }
 }
 
 @SuppressLint("SetTextI18n")
 class ChatLayout(context: Context) : CustomLayout(context) {
-
-  private val toolbarLogo = ImageView(context).apply {
-    setImageResource(R.drawable.ic_baseline_face_24)
-  }
-
-  private val toolbarTitle = TextView(context).apply {
-    text = " IME Animations"
-  }
 
   @JvmField
   val toolbar = MaterialToolbar(
@@ -81,8 +81,6 @@ class ChatLayout(context: Context) : CustomLayout(context) {
     R.attr.toolbarStyle
   ).autoAddView(MATCH_PARENT, WRAP_CONTENT) {
     elevation = 4.dp.toFloat()
-    this.addView(toolbarLogo)
-    this.addView(toolbarTitle)
   }
 
   @JvmField
@@ -91,24 +89,36 @@ class ChatLayout(context: Context) : CustomLayout(context) {
   @JvmField
   val messageHolder = ChatMessageHolderView(context).autoAddView(MATCH_PARENT, 48.dp)
 
+  init {
+    toolbar.addView(ImageView(context).apply {
+      setImageResource(R.drawable.ic_baseline_face_24)
+    })
+    toolbar.addView(TextView(context).apply {
+      text = " IME Animations"
+    })
+  }
+
   override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     toolbar.autoMeasure()
     messageHolder.autoMeasure()
 
     val parentHeight = MeasureSpec.getSize(heightMeasureSpec)
-    val recyclerViewHeight = parentHeight - toolbar.measuredHeight - messageHolder.measuredHeight
+    val recyclerViewHeight = (parentHeight
+      - toolbar.measuredHeight - messageHolder.measuredHeight
+      - paddingTop - paddingBottom)
     recyclerView.autoMeasure(heightMeasureSpec = recyclerViewHeight.toExactlyMeasureSpec())
   }
 
   override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-    layoutVertical(toolbar, recyclerView, messageHolder)
+    layoutVertical(paddingTop, toolbar, recyclerView, messageHolder)
   }
 }
 
 class ChatMessageHolderView(context: Context) : CustomLayout(context) {
 
-  private val inputEdit = AppCompatEditText(context).apply {
+  @JvmField
+  val inputEdit = AppCompatEditText(context).apply {
     hint = "Type a message..."
   }
 
@@ -117,9 +127,7 @@ class ChatMessageHolderView(context: Context) : CustomLayout(context) {
     context.toTheme(R.style.Theme_App_InputLayout),
     null,
     R.attr.textInputStyle
-  ).autoAddView(height = MATCH_PARENT) {
-    this.addView(inputEdit)
-  }
+  ).autoAddView(height = MATCH_PARENT)
 
   @JvmField
   val btnSend = ImageButton(
@@ -131,6 +139,7 @@ class ChatMessageHolderView(context: Context) : CustomLayout(context) {
   }
 
   init {
+    input.addView(inputEdit)
     setBackgroundColor(context.getAttrColor(R.attr.colorSurface))
     elevation = 4.dp.toFloat()
   }
@@ -143,10 +152,7 @@ class ChatMessageHolderView(context: Context) : CustomLayout(context) {
     val inputWidth = parentWidth - btnSend.measuredWidth
     input.autoMeasure(widthMeasureSpec = inputWidth.toExactlyMeasureSpec())
 
-    setMeasuredDimension(
-      widthMeasureSpec,
-      (input.measuredHeight + paddingTop + paddingBottom).toExactlyMeasureSpec()
-    )
+    setMeasuredDimension(widthMeasureSpec, input.measuredHeight.toExactlyMeasureSpec())
   }
 
   override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
