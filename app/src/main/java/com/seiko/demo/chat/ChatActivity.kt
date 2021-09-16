@@ -72,7 +72,7 @@ class ChatActivity : BaseActivity() {
 }
 
 @SuppressLint("SetTextI18n")
-class ChatLayout(context: Context) : CustomLayout(context) {
+class ChatLayout(context: Context) : InsetsAnimationCustomLayout(context) {
 
   @JvmField
   val toolbar = MaterialToolbar(
