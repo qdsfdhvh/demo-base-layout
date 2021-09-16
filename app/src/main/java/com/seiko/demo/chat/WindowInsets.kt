@@ -14,19 +14,19 @@ typealias InitialMargin = Rect
 fun View.applyBottomWindowInsetForScrollingView(scrollingView: ViewGroup) {
   scrollingView.clipToPadding = false
   val scrollingViewPadding = scrollingView.recordInitialPaddingForView()
-  doOnApplyWindowInsets { insets, _, _ ->
-    scrollingView.updatePadding(bottom = scrollingViewPadding.bottom + insets.systemWindowInsetBottom)
+  doOnApplyWindowInsets { windowInsets, _, _ ->
+    scrollingView.updatePadding(bottom = scrollingViewPadding.bottom + windowInsets.systemWindowInsetBottom)
   }
 }
 
 fun View.doOnApplyWindowInsets(
-  block: (insets: WindowInsetsCompat, padding: InitialPadding, margin: InitialMargin) -> Unit
+  block: (windowInsets: WindowInsetsCompat, padding: InitialPadding, margin: InitialMargin) -> Unit
 ) {
   val initialPadding = recordInitialPaddingForView()
   val initialMargin = recordInitialMarginForView()
-  ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
-    block(insets, initialPadding, initialMargin)
-    insets
+  ViewCompat.setOnApplyWindowInsetsListener(this) { _, windowInsets ->
+    block(windowInsets, initialPadding, initialMargin)
+    windowInsets
   }
   requestApplyInsetsWhenAttached()
 }
